@@ -9,15 +9,15 @@ import {
 import { IsAlpha } from 'src/decorators/IsAlpha.decorator';
 
 export class CaesarEncryptDto {
+  @MaxLength(1000)
   @IsString()
-  @MaxLength(300)
   @IsNotEmpty()
   @IsAlpha()
   text: string;
 
+  @Max(100)
   @IsNumber()
   @IsNotEmpty()
-  @Max(100)
   @Min(1)
   key: number;
 }

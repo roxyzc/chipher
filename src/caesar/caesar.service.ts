@@ -19,6 +19,7 @@ export class CaesarService {
     try {
       const proccessEncrypt = [];
       let encrypt = '';
+      let indexProccessEncrypt = 1;
       for (let i = 0; i < text.length; i++) {
         const char = text[i];
         if (char === ' ') {
@@ -29,12 +30,9 @@ export class CaesarService {
         const index = (findIndex + key) % this.alphabet.length;
         encrypt += this.alphabet[index].toUpperCase();
         proccessEncrypt.push(
-          `P${i + 1} = ${char} => ${findIndex} | C${
-            i + 1
-          } = E(${findIndex}) => (${findIndex} + ${key}) mod ${
-            this.alphabet.length
-          } => ${index} = ${encrypt[i]}`,
+          `P${indexProccessEncrypt} = ${char} => ${findIndex} | C${indexProccessEncrypt} = E(${findIndex}) => (${findIndex} + ${key}) mod ${this.alphabet.length} => ${index} = ${encrypt[i]}`,
         );
+        indexProccessEncrypt += 1;
       }
       return {
         encrypt,
@@ -48,6 +46,7 @@ export class CaesarService {
   public decrypt({ chipherText, key }: CaesarParamsDecrypt) {
     try {
       let data = '';
+      let indexProccessDecrypt = 1;
       const proccessDecrypt = [];
       for (let i = 0; i < chipherText.length; i++) {
         const char = chipherText[i].toLowerCase();
@@ -67,12 +66,11 @@ export class CaesarService {
         data += this.alphabet[alphabetIndex].toLowerCase();
 
         proccessDecrypt.push(
-          `C${i + 1} = ${char.toUpperCase()} => ${findIndex} | P${
-            i + 1
-          } = D(${findIndex}) => (${findIndex} - ${key}) mod ${
+          `C${indexProccessDecrypt} = ${char.toUpperCase()} => ${findIndex} | P${indexProccessDecrypt} = D(${findIndex}) => (${findIndex} - ${key}) mod ${
             this.alphabet.length
           } => ${alphabetIndex} = ${data[i]}`,
         );
+        indexProccessDecrypt += 1;
       }
       return {
         decrypt: data,
